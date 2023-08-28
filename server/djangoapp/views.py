@@ -12,13 +12,14 @@ import json
 
 # Getting an instance of a logger
 logger = logging.getLogger(__name__)
+platformUrl = 'https://9bebcb01.eu-de.apigw.appdomain.cloud'
 
 
 # View to render the index page with a list of dealerships
 def get_dealerships(request):
     if request.method == "GET":
         context = {}
-        url = "https://9bebcb01.eu-de.apigw.appdomain.cloud/api/dealership"
+        url = platformUrl+"/api/dealership"
         # Get dealers from the Cloudant DB
         context["dealerships"] = get_dealers_from_cf(url)
 
@@ -105,7 +106,7 @@ def registration_request(request):
 def get_dealer_details(request, dealer_id):
     context = {}
     if request.method == "GET":
-        url = 'https://9bebcb01.eu-de.apigw.appdomain.cloud/api/review'
+        url = platformUrl+'/api/review'
         reviews = get_dealer_reviews_from_cf(url, dealer_id=dealer_id)
         context = {
             "reviews":  reviews, 
@@ -150,7 +151,7 @@ def add_review(request, dealer_id):
             else: 
                 review["purchase_date"] = None
 
-            url = "https://9bebcb01.eu-de.apigw.appdomain.cloud/api/review"  # API Cloud Function route
+            url = platformUrl+"/api/review"  # API Cloud Function route
             json_payload = {"review": review}  # Create a JSON payload that contains the review data
 
             # Performing a POST request with the review
